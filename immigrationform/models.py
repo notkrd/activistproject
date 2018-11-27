@@ -6,6 +6,9 @@ from django.db import models
 class Question(models.Model):
     question_text = models.TextField()
 
+    def __str__(self):
+        return self.question_text
+
 
 class FreeResponseQuestion(Question):
     current_answer = models.ForeignKey('FreeResponse', null=True, on_delete=models.SET_NULL)
@@ -30,16 +33,27 @@ class Answer(models.Model):
 class FreeResponse(Answer):
     answer_val = models.CharField(max_length=120)
 
+    def __str__(self):
+        return self.answer_val
+
 
 class MultiChoiceResponse(Answer):
-    choice_code = models.CharField(max_length=12)
-    choice_val = models.TextField()
+    answer_val = models.TextField()
+
+    def __str__(self):
+        return self.answer_val
 
 
 class DocumentAttribute(models.Model):
     attribute_name = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.attribute_name
+
 
 class DocumentAttrValue(models.Model):
     attribute_val = models.CharField(max_length=200)
     for_attribute = models.ForeignKey(DocumentAttribute, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.attribute_val
