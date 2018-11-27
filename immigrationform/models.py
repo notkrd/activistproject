@@ -11,15 +11,14 @@ class Question(models.Model):
 
 
 class FreeResponseQuestion(Question):
-    current_answer = models.ForeignKey('FreeResponse', null=True, on_delete=models.SET_NULL)
+    pass
 
 
 class MultiChoiceQuestion(Question):
-    current_answer = models.ForeignKey('MultiChoiceResponse', null=True, on_delete=models.SET_NULL)
+    pass
 
 
 class PolarQuestion(Question):
-    current_answer = models.BooleanField()
     true_score = models.ManyToManyField('DocumentAttrValue', related_name='true_scores')
     false_score = models.ManyToManyField('DocumentAttrValue', related_name='false_scores')
 
