@@ -38,6 +38,7 @@ class Migration(migrations.Migration):
             name='MultiChoiceResponse',
             fields=[
                 ('answer_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='immigrationform.Answer')),
+                ('choice_code', models.CharField(max_length=12)),
                 ('choice_val', models.TextField()),
             ],
             bases=('immigrationform.answer',),
