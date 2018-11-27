@@ -1,2 +1,2 @@
-release: python manage.py migrate --fake --noinput
+release: python manage.py migrate --noinput
 web: gunicorn activistproject.wsgi
