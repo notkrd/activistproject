@@ -38,7 +38,7 @@ class FreeResponse(Answer):
 
 
 class MultiChoiceResponse(Answer):
-    answer_val = models.TextField()
+    answer_val = models.TextField(default='')
 
     def __str__(self):
         return self.answer_val
