@@ -14,5 +14,15 @@ class MultiChoiceAdmin(admin.ModelAdmin):
     inlines = [MultiChoiceInLine]
 
 
+class AttrInline(admin.StackedInline):
+    model = DocumentAttrValue
+    extra = 3
+
+
+class AttributeAdmin(admin.ModelAdmin):
+    inlines = [AttrInline]
+
+
 admin.site.register(MultiChoiceQuestion, MultiChoiceAdmin)
-admin.site.register([DocumentAttribute, DocumentAttrValue, Question, FreeResponseQuestion, PolarQuestion, Answer, FreeResponse, MultiChoiceResponse])
+admin.site.register(DocumentAttribute, AttributeAdmin)
+admin.site.register([DocumentAttrValue, Question, FreeResponseQuestion, PolarQuestion, Answer, FreeResponse, MultiChoiceResponse])
