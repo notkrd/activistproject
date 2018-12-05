@@ -17,16 +17,20 @@ def index(request, num_mc = 20, num_polar = 20):
     PolarFormset = modelformset_factory(PolarQuestion, form=PolarQuestionForm, extra=0)
 
     if request.method == 'POST':
-        return HttpResponse(request)
+        mc_formset = MultiChoiceFormset(request.POST, request.FILES, prefix='mc')
+        polar_formset = PolarFormset(request.POST, request.FILES, prefix='polar')
+
+        if mc_formset.is_valid() and polar_formset.is_valid():
+            return HttpResponse(request)
 
     else:
-        mc_formset = MultiChoiceFormset(queryset=some_mcs)
+        mc_formset = MultiChoiceFormset(queryset=some_mcs, prefix='mc')
         for form in mc_formset:
             form.fields['answer'].label = form.instance.question_text
             form.fields['answer'].queryset = MultiChoiceResponse.objects.filter(for_question=form.instance)
 
-        polar_formset = PolarFormset()
+        polar_formset = PolarFormset(queryset=some_ps, prefix='polar')
         for form in polar_formset:
             form.fields['answer'].label = form.instance.question_text
 
-    return render(request, 'immigrationform/character_form.html', {'mc_formset': mc_formset, 'polar_formset': polar_formset})
+        return render(request, 'immigrationform/character_form.html', {'mc_formset': mc_formset, 'polar_formset': polar_formset})
