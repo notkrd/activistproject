@@ -4,11 +4,15 @@ from django.forms import formset_factory, modelformset_factory
 
 from .forms import MultiChoiceQuestionForm, PolarQuestionForm
 from .models import MultiChoiceQuestion, PolarQuestion, Question, MultiChoiceResponse
+from random import sample
 
 # Create your views here.
 
 
-def index(request):
+def index(request, num_mc = 20, num_polar = 20):
+    some_mcs = MultiChoiceQuestion.objects.order_by('?')[:num_mc]
+    some_ps = MultiChoiceQuestion.objects.order_by('?')[:num_polar]
+
     MultiChoiceFormset = modelformset_factory(MultiChoiceQuestion, form=MultiChoiceQuestionForm, extra=0)
     PolarFormset = modelformset_factory(PolarQuestion, form=PolarQuestionForm, extra=0)
 
@@ -16,7 +20,7 @@ def index(request):
         return HttpResponse(request)
 
     else:
-        mc_formset = MultiChoiceFormset()
+        mc_formset = MultiChoiceFormset(queryset=some_mcs)
         for form in mc_formset:
             form.fields['answer'].label = form.instance.question_text
             form.fields['answer'].queryset = MultiChoiceResponse.objects.filter(for_question=form.instance)

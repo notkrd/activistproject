@@ -1,25 +1,44 @@
+{% load static %}
 
-PRIVACY NOTE: these answers are saved to an unsecured database. Please answer "within the magic circle" of the game (this is an exercise in fictional character creation) and not with your own personal information.
+<head>
+    <title>The Immigration Game: Form</title>
+    <link rel="stylesheet" href={% static 'immigrationform/style.css'%}>
 
-<form method="post">
-    {% csrf_token %}
-    <table>
 
-        {{ mc_formset.management_form }}
-        {% for form in mc_formset %}
-            <tr><td><ul class="list-inline">{{ form.as_p }}</ul></td></tr>
-        {% endfor %}
-    </table>
+    <script src={% static 'immigrationform/formjs.js'%}> </script>
+</head>
 
-    {% csrf_token %}
-    <table>
+<body>
+    <H2>Out of Game Note</H2>
+    <p>PRIVACY NOTE: these answers are saved to an unsecured database. Please answer "within the magic circle" of the game (this is an exercise in fictional character creation) and not with your own personal information.</p>
 
-        {{ polar_formset.management_form }}
-        {% for form in polar_formset %}
-            <tr><td><ul class="list-inline">{{ form.as_p }}</ul></td></tr>
-        {% endfor %}
-    </table>
+    <H2>In Game Note</H2>
+    <p>The department's IT budget was recently cut by 40%. Thus, if you encounter any difficulty completing this form, please call our applicant support team at +1 (123) 456-7891, but we do not guarantee any resolution of the problem and aesthetic suggestions will not be entertained. Further, our applicant support budget was also cut by 40%, so we apologize if we cannot take your call. </p>
 
-    <input type="submit" value="Submit order" class="btn btn-primary">
+        <div id="timer">
+            <h3>Form automatically submits in <span id="time">05:00</span> minutes!</h3>
+        </div>
 
-</form>
+    <form id="applicationform" method="post">
+        {% csrf_token %}
+        <table>
+
+            {{ mc_formset.management_form }}
+            {% for form in mc_formset %}
+                <tr><td><ul class="list-inline">{{ form.as_p }}</ul></td></tr>
+            {% endfor %}
+        </table>
+
+        {% csrf_token %}
+        <table>
+
+            {{ polar_formset.management_form }}
+            {% for form in polar_formset %}
+                <tr><td><ul class="list-inline">{{ form.as_p }}</ul></td></tr>
+            {% endfor %}
+        </table>
+
+        <input type="submit" value="Submit application" class="btn btn-primary">
+
+    </form>
+</body>

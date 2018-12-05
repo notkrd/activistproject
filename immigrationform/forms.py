@@ -5,7 +5,7 @@ from immigrationform.models import Question, MultiChoiceQuestion, Answer, FreeRe
 
 
 class MultiChoiceQuestionForm(ModelForm):
-    answer = ModelChoiceField(queryset=MultiChoiceResponse.objects.all())
+    answer = ModelChoiceField(queryset=MultiChoiceResponse.objects.all(), required=False)
 
     class Meta:
         model = MultiChoiceQuestion
@@ -13,7 +13,7 @@ class MultiChoiceQuestionForm(ModelForm):
 
 
 class PolarQuestionForm(ModelForm):
-    answer = forms.BooleanField()
+    answer = forms.BooleanField(required=False)
 
     class Meta:
         model = MultiChoiceQuestion
