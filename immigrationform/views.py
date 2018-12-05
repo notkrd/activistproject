@@ -11,7 +11,7 @@ from random import sample
 
 def index(request, num_mc = 20, num_polar = 20):
     some_mcs = MultiChoiceQuestion.objects.order_by('?')[:num_mc]
-    some_ps = MultiChoiceQuestion.objects.order_by('?')[:num_polar]
+    some_ps = PolarQuestion.objects.order_by('?')[:num_polar]
 
     MultiChoiceFormset = modelformset_factory(MultiChoiceQuestion, form=MultiChoiceQuestionForm, extra=0)
     PolarFormset = modelformset_factory(PolarQuestion, form=PolarQuestionForm, extra=0)
