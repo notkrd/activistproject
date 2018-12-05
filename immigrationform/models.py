@@ -43,6 +43,10 @@ class MultiChoiceResponse(Answer):
         return self.answer_val
 
 
+class PolarResponse(Answer):
+    answer_val = models.BooleanField
+
+
 class DocumentAttribute(models.Model):
     attribute_name = models.CharField(max_length=100)
 
@@ -56,3 +60,21 @@ class DocumentAttrValue(models.Model):
 
     def __str__(self):
         return self.attribute_val
+
+
+class CharMultiResponse(models.Model):
+    for_question = models.ForeignKey(MultiChoiceQuestion, on_delete=models.CASCADE)
+    by_character = models.ForeignKey('Character', on_delete=models.CASCADE)
+    with_response = models.ForeignKey(MultiChoiceResponse, on_delete=models.CASCADE)
+
+
+class CharPolarResponse(models.Model):
+    for_question = models.ForeignKey(PolarQuestion, on_delete=models.CASCADE)
+    by_character = models.ForeignKey('Character', on_delete=models.CASCADE)
+    with_response = models.BooleanField()
+
+
+class Character(models.Model):
+    name = models.CharField(max_length=200)
+    multi_choice_answers = models.ManyToManyField(MultiChoiceQuestion, through=CharMultiResponse)
+    polar_answers = models.ManyToManyField(PolarQuestion, through=CharPolarResponse)

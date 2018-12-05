@@ -1,28 +1,20 @@
-from django.forms import ModelForm
-from immigrationform.models import Question, Answer, FreeResponse, MultiChoiceResponse
+from django import forms
 
-
-class QuestionForm(ModelForm):
-    class Meta:
-        model = Question
-        fields = ['question_text']
-
-
-class FreeQuestionForm(ModelForm):
-    class Meta:
-        model = Question
-        fields = ['question_text', 'current_answer']
+from django.forms import ModelForm, formset_factory, ModelChoiceField
+from immigrationform.models import Question, MultiChoiceQuestion, Answer, FreeResponseQuestion, MultiChoiceResponse, PolarQuestion, Character, CharMultiResponse, CharPolarResponse
 
 
 class MultiChoiceQuestionForm(ModelForm):
+    answer = ModelChoiceField(queryset=MultiChoiceResponse.objects.all())
+
     class Meta:
-        model = Question
-        fields = ['question_text', 'current_answer']
+        model = MultiChoiceQuestion
+        fields = []
 
 
 class PolarQuestionForm(ModelForm):
+    answer = forms.BooleanField()
+
     class Meta:
-        model = Question
-        fields = ['question_text', 'current_answer']
-
-
+        model = MultiChoiceQuestion
+        fields = []
