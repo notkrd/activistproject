@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import formset_factory, modelformset_factory
+from django.shortcuts import get_object_or_404, reverse
 
 from .forms import MultiChoiceQuestionForm, PolarQuestionForm, NameForm
 from .models import MultiChoiceQuestion, PolarQuestion, Question, MultiChoiceResponse, Character, CharMultiResponse, CharPolarResponse
@@ -24,7 +25,8 @@ def index(request, num_mc = 20, num_polar = 20):
         if mc_formset.is_valid() and polar_formset.is_valid() and name_form.is_valid():
             mcd = mc_formset.cleaned_data
             pd = polar_formset.cleaned_data
-            charname = name_form.cleaned_data
+            charname_data = name_form.cleaned_data
+            charname = charname_data['name']
 
             char = Character.objects.create(name=charname)
 
@@ -39,7 +41,7 @@ def index(request, num_mc = 20, num_polar = 20):
                 the_a = plr['answer']
                 an_r = CharPolarResponse.objects.create(by_character=char, for_question=the_q, with_response=the_a)
 
-            return HttpResponse(char.str_attributes())
+            return HttpResponseRedirect(reverse('charcard', kwargs={'char_id': char.id}))
         else:
             return HttpResponse("Something has gone wrong. Please try again in 4 months.")
 
@@ -56,3 +58,9 @@ def index(request, num_mc = 20, num_polar = 20):
             form.fields['answer'].label = form.instance.question_text
 
         return render(request, 'immigrationform/character_form.html', {'mc_formset': mc_formset, 'polar_formset': polar_formset, 'name_form': name_form})
+
+
+def charcard(request, char_id):
+    the_char = get_object_or_404(Character, pk=char_id)
+    return render(request, 'immigrationform/character_card.html',
+                  {'charname': the_char.name, 'char_attrs': the_char.calculate_attributes()})

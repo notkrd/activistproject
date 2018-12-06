@@ -1,0 +1,20 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stranger in a Familiar Land: Character</title>
+    <link rel="stylesheet" href={% static 'immigrationform/style.css'%}>
+</head>
+<body>
+
+<h1>Citizenship Recovery Application</h1>
+
+<h3>Applicant Name: {{ charname }}</h3>
+{%  for key, val in char_attrs.items %}
+    <p><strong>{{ key }}: </strong> val</p>
+{% endfor %}
+
+</body>
+</html>
