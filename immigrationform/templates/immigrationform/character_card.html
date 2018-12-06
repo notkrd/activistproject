@@ -9,7 +9,11 @@
     <link rel="stylesheet" href={% static 'immigrationform/style.css'%}>
 </head>
 <body>
-<img src="{% static 'immigrationform/stranger_logo.png' %}" alt="The Department Logo" />
+<div class="w3-container"><br><br>
+    <img src="{% static 'immigrationform/stranger_logo.png' %}" alt="The Department Logo" style="float: left; display: block;" />
+</div>
+<div style="display: block; clear: left;">
+<br>
 <h1>Citizenship Recovery Application</h1>
 
 <h3>Applicant Name: {{ charname }}</h3>
@@ -18,6 +22,6 @@
 {% endfor %}
 
 <h3><a href="https://drive.google.com/drive/folders/1JKL2wDGLPqQyy1v169WItiVRu-CBDbkV?usp=sharing">Gameplay guide</a></h3>
-
+</div>
 </body>
 </html>
