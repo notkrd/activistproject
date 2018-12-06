@@ -76,6 +76,9 @@ class CharPolarResponse(models.Model):
 class Character(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
     def calculate_attributes(self):
         all_attributes = DocumentAttribute.objects.all()
         attr_counts = {}
@@ -99,7 +102,8 @@ class Character(models.Model):
 
         attr_vals = {}
         for an_attr in all_attributes:
-            attr_vals[an_attr] = max(attr_counts[an_attr], key=attr_counts[an_attr].get)
+            if attr_counts[an_attr]:
+                attr_vals[an_attr] = max(attr_counts[an_attr], key=attr_counts[an_attr].get)
 
         return attr_vals
 
