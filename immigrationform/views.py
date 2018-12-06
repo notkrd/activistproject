@@ -62,5 +62,13 @@ def index(request, num_mc = 20, num_polar = 20):
 
 def charcard(request, char_id):
     the_char = get_object_or_404(Character, pk=char_id)
+
+    char_dict = {str(k): v for k, v in the_char.calculate_attributes().items()}
+    char_list = list(char_dict.items())
+
+    sortorder = {"Age": 0, "Gender": 1, "Occupation": 2, "Continent of Origin": 3, "Educational Attainment": 4, "Household Income": 5, "Marital Status": 6}
+    sort_cats = lambda x: sortorder[x[0]] if x[0] in sortorder.keys() else len(sortorder) + 1
+    sorted_char = sorted(char_list, key=sort_cats)
+
     return render(request, 'immigrationform/character_card.html',
-                  {'charname': the_char.name, 'char_attrs': the_char.calculate_attributes()})
+                  {'charname': the_char.name, 'char_attrs': sorted_char})

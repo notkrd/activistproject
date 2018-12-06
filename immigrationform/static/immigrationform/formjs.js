@@ -16,8 +16,9 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    var fiveMinutes = 60 * 5,
-        display = document.querySelector('#time');
-    startTimer(fiveMinutes, display);
-    window.setTimeout(function(){document.getElementById('applicationform').submit()}, fiveMinutes*1000);
+    var fiveMinutes = 60 * 5;
+    var threeMinutes = 60 * 3;
+    display = document.querySelector('#time');
+    startTimer(threeMinutes, display);
+    window.setTimeout(function(){document.getElementById('applicationform').submit()}, threeMinutes*1000);
 };
