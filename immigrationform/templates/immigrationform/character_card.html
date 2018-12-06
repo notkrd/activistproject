@@ -4,17 +4,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'immigrationform/favicon.ico' %}">
     <title>Stranger in a Familiar Land: Character</title>
     <link rel="stylesheet" href={% static 'immigrationform/style.css'%}>
 </head>
 <body>
-
+<img src="{% static 'immigrationform/stranger_logo.png' %}" alt="The Department Logo" />
 <h1>Citizenship Recovery Application</h1>
 
 <h3>Applicant Name: {{ charname }}</h3>
 {%  for key, val in char_attrs %}
     <p><strong>{{ key }}: </strong> {{ val }}</p>
 {% endfor %}
+
+<h3><a href="https://drive.google.com/drive/folders/1JKL2wDGLPqQyy1v169WItiVRu-CBDbkV?usp=sharing">Gameplay guide</a></h3>
 
 </body>
 </html>
