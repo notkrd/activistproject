@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Question, FreeResponse, FreeResponseQuestion, MultiChoiceResponse, MultiChoiceQuestion, Answer, PolarQuestion, DocumentAttribute, DocumentAttrValue
+from .models import Question, FreeResponse, FreeResponseQuestion, MultiChoiceResponse, MultiChoiceQuestion, Answer, PolarQuestion, DocumentAttribute, DocumentAttrValue, Character, CharMultiResponse, CharPolarResponse
 
 # Register your models here.
 
@@ -25,4 +25,4 @@ class AttributeAdmin(admin.ModelAdmin):
 
 admin.site.register(MultiChoiceQuestion, MultiChoiceAdmin)
 admin.site.register(DocumentAttribute, AttributeAdmin)
-admin.site.register([DocumentAttrValue, Question, FreeResponseQuestion, PolarQuestion, Answer, FreeResponse, MultiChoiceResponse])
+admin.site.register([DocumentAttrValue, Question, FreeResponseQuestion, PolarQuestion, Answer, FreeResponse, MultiChoiceResponse, Character, CharPolarResponse, CharMultiResponse])

@@ -16,11 +16,14 @@
     <p>Answer the following questions as part of your application for permission to reside within the United States. False answers can and will pe prosecuted to the furthest extent of the law. </p>
     <p>The department's IT budget was recently cut by 40%. Thus, if you encounter any difficulty completing this form, please call our applicant support team at +1 (123) 456-7891, but we do not guarantee any resolution of the problem and aesthetic suggestions will not be entertained. Further, our applicant support budget was also cut by 40%, so we apologize if we cannot take your call. </p>
 
+
         <div id="timer">
             <h3>Form automatically submits in <span id="time">05:00</span> minutes!</h3>
         </div>
 
     <form id="applicationform" method="post">
+
+            {{ name_form.as_p }}
         {% csrf_token %}
 
     <h3>Select the most accurate response</h3>

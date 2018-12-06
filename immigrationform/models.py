@@ -63,18 +63,50 @@ class DocumentAttrValue(models.Model):
 
 
 class CharMultiResponse(models.Model):
-    for_question = models.ForeignKey(MultiChoiceQuestion, on_delete=models.CASCADE)
     by_character = models.ForeignKey('Character', on_delete=models.CASCADE)
-    with_response = models.ForeignKey(MultiChoiceResponse, on_delete=models.CASCADE)
+    with_response = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
 
 class CharPolarResponse(models.Model):
-    for_question = models.ForeignKey(PolarQuestion, on_delete=models.CASCADE)
     by_character = models.ForeignKey('Character', on_delete=models.CASCADE)
+    for_question = models.ForeignKey(PolarQuestion, on_delete=models.CASCADE, null=True, default=None)
     with_response = models.BooleanField()
 
 
 class Character(models.Model):
     name = models.CharField(max_length=200)
-    multi_choice_answers = models.ManyToManyField(MultiChoiceQuestion, through=CharMultiResponse)
-    polar_answers = models.ManyToManyField(PolarQuestion, through=CharPolarResponse)
+
+    def calculate_attributes(self):
+        all_attributes = DocumentAttribute.objects.all()
+        attr_counts = {}
+
+        for an_attr in all_attributes:
+            attr_counts[an_attr] = {}
+            for a_val in an_attr.documentattrvalue_set.all():
+                attr_counts[an_attr][a_val] = 0
+
+        for a_mc in self.charmultiresponse_set.all():
+            for a_val in a_mc.with_response.answer_score.all():
+                attr_counts[a_val.for_attribute][a_val] += 1
+
+        for a_plr in self.charpolarresponse_set.all():
+            if a_plr.with_response:
+                for a_val in a_plr.for_question.true_score.all():
+                    attr_counts[a_val.for_attribute][a_val] += 1
+            else:
+                for a_val in a_plr.for_question.false_score.all():
+                    attr_counts[a_val.for_attribute][a_val] += 1
+
+        attr_vals = {}
+        for an_attr in all_attributes:
+            attr_vals[an_attr] = max(attr_counts[an_attr], key=attr_counts[an_attr].get)
+
+        return attr_vals
+
+    def str_attributes(self):
+        str_out =""
+        attr_dict = self.calculate_attributes()
+        for key, value in attr_dict.items():
+            str_out += "{}: {} \n".format(key, value)
+        return str_out
+
